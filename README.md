@@ -208,6 +208,64 @@ https://api.telegram.org/bot<BOT_TOKEN>/getWebhookInfo
 - `/skip` — пропустить шаг с файлом.
 - `/cancel` — сбросить текущее состояние.
 
+### Кнопки и действия
+
+#### Постоянная клавиатура
+
+| Кнопка | Кому доступна | Что делает |
+|---|---|---|
+| `Список тем` | Всем | Показывает активные задания. При открытии задания бот отправляет прикреплённый файл и показывает темы с кнопками бронирования |
+| `Мои брони` | Всем | Показывает темы, которые забронировал текущий пользователь, и кнопки освобождения |
+| `Новое задание` | Старосте | Запускает диалог: название → количество тем → файл или `Пропустить`. После создания генерирует `Тема 1…Тема N` и показывает меню редактирования |
+| `Добавить темы` | Старосте | Показывает список активных заданий. После выбора задания нужно указать количество, и бот добавит следующие по номеру темы |
+| `Редактировать` | Старосте | Показывает список активных заданий. После выбора открывает меню редактирования задания |
+
+#### Меню редактирования задания
+
+| Кнопка | Что делает |
+|---|---|
+| `Дедлайн` | Позволяет указать дату в формате `ДД.ММ.ГГГГ` или `ГГГГ-ММ-ДД`. Чтобы удалить дедлайн, отправьте `-` |
+| `Контакты` | Позволяет указать почту и/или телефон преподавателя одним сообщением. Чтобы удалить, отправьте `-` |
+| `Литература` | Позволяет вставить список литературы текстом, каждый источник с новой строки. Чтобы удалить, отправьте `-` |
+| `Добавить темы` | Добавляет указанное количество тем, продолжая нумерацию |
+| `Редактировать темы` | Открывает список тем с кнопками переименования и удаления. Внутри также есть удаление всех тем |
+| `Показать файл` | Повторно отправляет прикреплённый к заданию файл. Кнопка видна, если файл есть |
+| `Удалить все темы` | Удаляет все темы задания после подтверждения. Кнопка видна, если темы есть |
+| `Удалить задание` | Удаляет задание, все его темы и брони после подтверждения |
+| `К заданию` | Возвращает к обычному просмотру задания |
+
+#### Кнопки внутри задания
+
+| Кнопка | Что делает |
+|---|---|
+| `Занять №N` | Атомарно бронирует свободную тему за текущим студентом |
+| `Освободить №N` | Снимает бронь текущего студента с темы |
+| `Список литературы` | Показывает полный список литературы отдельным сообщением |
+| `Показать файл` | Повторно отправляет файл задания |
+| `Редактировать` | Открывает меню редактирования задания (только старосте) |
+| `Назад` / `Вперёд` | Переключает страницы списка тем |
+| `К заданиям` | Возвращает к списку активных заданий |
+| `Обновить` | Обновляет список активных заданий |
+
+#### Шаг с файлом
+
+| Кнопка / команда | Что делает |
+|---|---|
+| `Пропустить` | Создаёт задание без файла, генерирует темы и завершает диалог |
+| `/skip` | То же самое, но текстовой командой |
+| `/cancel` | Отменяет текущий диалог на любом шаге |
+
+#### Команды
+
+| Команда | Кому доступна | Что делает |
+|---|---|---|
+| `/start` | Всем | Показывает приветствие и постоянную клавиатуру |
+| `/topics` | Всем | Открывает список активных заданий |
+| `/my` | Всем | Открывает мои брони |
+| `/cancel` | Всем | Сбрасывает текущее состояние FSM |
+| `/skip` | Старосте | Пропускает необязательный шаг с файлом |
+| `/export <ID>` | Старосте | Отправляет CSV с темами, статусами и студентами |
+
 ## Безопасность
 
 - Не публикуйте `.env`, токен бота и строку подключения к БД.
@@ -445,6 +503,64 @@ Commands:
 - `/export <ID>` — CSV with topics, statuses, and students.
 - `/skip` — skip the optional file step.
 - `/cancel` — reset the current FSM state.
+
+### Buttons and actions
+
+#### Persistent reply keyboard
+
+| Button | Available to | What it does |
+|---|---|---|
+| `Topic list` | Everyone | Shows active assignments. When an assignment is opened, the bot sends the attached file and displays topics with booking buttons |
+| `My bookings` | Everyone | Shows topics booked by the current user with release buttons |
+| `New assignment` | Admin | Starts the dialog: title → number of topics → file or `Skip`. After creation it generates `Topic 1…Topic N` and opens the edit menu |
+| `Add topics` | Admin | Shows active assignments. After selecting one, enter the number of extra topics to append |
+| `Edit` | Admin | Shows active assignments. After selecting one, opens the assignment edit menu |
+
+#### Assignment edit menu
+
+| Button | What it does |
+|---|---|
+| `Deadline` | Sets a deadline in `DD.MM.YYYY` or `YYYY-MM-DD` format. Send `-` to remove it |
+| `Contacts` | Sets teacher email and/or phone in one message. Send `-` to remove it |
+| `Reading list` | Accepts a multiline reading list, one source per line. Send `-` to remove it |
+| `Add topics` | Adds the specified number of topics, continuing the numbering |
+| `Edit topics` | Opens a topic list with rename and delete buttons. Also allows deleting all topics |
+| `Show file` | Resends the attached file. Visible only when a file exists |
+| `Delete all topics` | Deletes every topic in the assignment after confirmation. Visible when topics exist |
+| `Delete assignment` | Deletes the assignment, all its topics, and bookings after confirmation |
+| `Back to assignment` | Returns to the regular assignment view |
+
+#### Buttons inside an assignment
+
+| Button | What it does |
+|---|---|
+| `Book #N` | Atomically books a free topic for the current student |
+| `Release #N` | Releases the current student's booking |
+| `Reading list` | Shows the full reading list in a separate message |
+| `Show file` | Resends the assignment file |
+| `Edit` | Opens the assignment edit menu (admin only) |
+| `Back` / `Next` | Switches pages in the topic list |
+| `Back to assignments` | Returns to the active assignments list |
+| `Refresh` | Refreshes the active assignments list |
+
+#### File step
+
+| Button / command | What it does |
+|---|---|
+| `Skip` | Creates the assignment without a file, generates topics, and finishes the dialog |
+| `/skip` | Same as the button, but sent as a text command |
+| `/cancel` | Cancels the current dialog at any step |
+
+#### Commands
+
+| Command | Available to | What it does |
+|---|---|---|
+| `/start` | Everyone | Shows the welcome message and persistent keyboard |
+| `/topics` | Everyone | Opens the active assignments list |
+| `/my` | Everyone | Opens the current user's bookings |
+| `/cancel` | Everyone | Resets the current FSM state |
+| `/skip` | Admin | Skips the optional file step |
+| `/export <ID>` | Admin | Sends a CSV with topics, statuses, and students |
 
 ## Security
 
