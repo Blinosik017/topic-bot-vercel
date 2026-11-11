@@ -1,0 +1,2 @@
+ALTER TABLE assignments ADD COLUMN IF NOT EXISTS file_id TEXT;
+ALTER TABLE assignments ADD COLUMN IF NOT EXISTS file_name TEXT;
