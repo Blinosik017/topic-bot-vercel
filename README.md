@@ -1,5 +1,7 @@
 # TopicSlotsBot
 
+GitHub: [Blinosik017/topic-bot-vercel](https://github.com/Blinosik017/topic-bot-vercel)
+
 Telegram bot for a student group. The group leader creates assignments, attaches a file with the topic list, and the bot generates numbered booking slots. Students book topics atomically, so two people cannot take the same topic.
 
 This README is available in two languages:
@@ -90,21 +92,28 @@ cp .env.example .env
 
 ## Локальный запуск
 
-1. Установите зависимости:
+1. Клонируйте репозиторий и перейдите в папку проекта:
+
+```bash
+git clone https://github.com/Blinosik017/topic-bot-vercel.git
+cd topic-bot-vercel
+```
+
+2. Установите зависимости:
 
 ```bash
 npm install
 ```
 
-2. Заполните `.env`.
+3. Заполните `.env` на основе `.env.example`.
 
-3. Примените миграции:
+4. Примените миграции:
 
 ```bash
 npm run db:migrate
 ```
 
-4. Запустите бота в режиме polling:
+5. Запустите бота в режиме polling:
 
 ```bash
 npm run dev
@@ -386,21 +395,28 @@ Never commit `.env` to GitHub. It is already excluded by `.gitignore`.
 
 ## Local development
 
-1. Install dependencies:
+1. Clone the repository and enter the project directory:
+
+```bash
+git clone https://github.com/Blinosik017/topic-bot-vercel.git
+cd topic-bot-vercel
+```
+
+2. Install dependencies:
 
 ```bash
 npm install
 ```
 
-2. Fill in `.env`.
+3. Fill in `.env` based on `.env.example`.
 
-3. Apply database migrations:
+4. Apply database migrations:
 
 ```bash
 npm run db:migrate
 ```
 
-4. Start the bot in polling mode:
+5. Start the bot in polling mode:
 
 ```bash
 npm run dev
